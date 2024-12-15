@@ -1,13 +1,16 @@
 package org.example;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class App {
+
     private static final int[] priser = new int[24]; // Array for storing electricity prices
 
 
     public static void main(String[] args) {
+        Locale.setDefault(Locale.of("sv", "SE"));
         boolean running = true;
         Scanner scanner = new Scanner(System.in);
 
@@ -93,26 +96,28 @@ public class App {
     }
 
     public static void sorteraPriser() {
-        int[][] sortedPrices = new int[24][2];
+        int[][] sorteradePriser = new int[24][2];
         for (int i = 0; i < priser.length; i++) {
-            sortedPrices[i][0] = i;         // Store the hour
-            sortedPrices[i][1] = priser[i]; // Store the price
+            sorteradePriser[i][0] = i;         // Spara timmen
+            sorteradePriser[i][1] = priser[i]; // Spara priset
         }
 
-        // Sort by price in descending order, and by hour in ascending order if prices are equal
-        Arrays.sort(sortedPrices, (a, b) -> {
+        // Sortera efter pris i fallande ordning, och timme i stigande ordning om priserna är lika
+        Arrays.sort(sorteradePriser, (a, b) -> {
             if (b[1] != a[1]) {
                 return Integer.compare(b[1], a[1]);
             }
             return Integer.compare(a[0], b[0]);
         });
 
-        // Print only the top 4 prices in the required format
+        // Skriv ut de 4 högsta priserna i önskat format
+        System.out.println("De 4 högsta priserna:");
         for (int i = 0; i < 4; i++) {
-            int[] pair = sortedPrices[i];
-            System.out.printf("%02d-%02d %d öre\n", pair[0], (pair[0] + 1) % 24 == 0 ? 24 : (pair[0] + 1) % 24, pair[1]);
+            int[] par = sorteradePriser[i];
+            System.out.printf("%02d-%02d %d öre\n", par[0], (par[0] + 1) % 24 == 0 ? 24 : (par[0] + 1) % 24, par[1]);
         }
     }
+
 
 
     public static void bästaLaddningstid() {
